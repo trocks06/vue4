@@ -1,27 +1,31 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import store from '@/store';
 
 const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: HomeView
-  },
-  {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: function () {
-      return import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-    }
-  }
-]
+    { path: '/', name: 'Catalog', component: () => import('@/views/CatalogView.vue') },
+    { path: '/login', name: 'Login', component: () => import('@/views/LoginView.vue') },
+    { path: '/register', name: 'Register', component: () => import('@/views/RegisterView.vue') },
+];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes
-})
+    history: createWebHistory(),
+    routes,
+});
 
-export default router
+router.beforeEach((to, from, next) => {
+    const isAuthenticated = store.getters.isAuthenticated;
+    const publicPages = ['Login', 'Register'];
+    const authRequired = !publicPages.includes(to.name);
+
+    if (authRequired && !isAuthenticated) {
+        return next({ name: 'Login' });
+    }
+
+    if (!authRequired && isAuthenticated) {
+        return next({ name: 'Catalog' });
+    }
+
+    next();
+});
+
+export default router;
