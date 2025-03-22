@@ -18,7 +18,6 @@
         <p v-if="errors.password">{{ errors.password[0] }}</p>
       </div>
       <button type="submit" :disabled="loading">Зарегистрироваться</button>
-      <router-link to="/login" class="login-link">Авторизация</router-link>
     </form>
     <p v-if="successMessage" class="success-message" aria-live="polite">{{ successMessage }}</p>
     <p v-if="errorMessage" class="error-message" aria-live="polite">{{ errorMessage }}</p>

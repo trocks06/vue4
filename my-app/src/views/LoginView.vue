@@ -29,7 +29,6 @@
       <button type="submit" :disabled="loading">
         {{ loading ? 'Вход...' : 'Войти' }}
       </button>
-      <router-link to="/register" class="register-link">Регистрация</router-link>
     </form>
     <p v-if="errorMessage" class="error-message" aria-live="polite">{{ errorMessage }}</p>
   </div>
@@ -65,7 +64,7 @@ export default {
         this.errorMessage = '';
         const response = await api.login(this.credentials);
         this.setToken(response.data.data.user_token);
-        this.$router.push('/');
+        this.$router.push('/products');
       } catch (error) {
         if (error.response) {
           if (error.response.status === 401) {

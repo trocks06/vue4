@@ -32,7 +32,6 @@ export default {
     this.fetchProducts();
   },
   methods: {
-    ...mapActions(['addToCart']),
     async fetchProducts() {
       this.loading = true;
       this.errorMessage = '';

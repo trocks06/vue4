@@ -1,6 +1,8 @@
 <template>
   <nav class="navigation">
-    <router-link class="nav-link" to="/">Главная</router-link>
+    <router-link to="/products" class="nav-link">Калатог</router-link>
+    <router-link v-if="!isAuthenticated" to="/login" class="nav-link">Авторизация</router-link>
+    <router-link v-if="!isAuthenticated" to="/register" class="nav-link">Регистрация</router-link>
     <button v-if="isAuthenticated" @click="handleLogout" class="logout-btn">Выйти</button>
   </nav>
   <router-view />
@@ -11,10 +13,7 @@ import { mapGetters, mapActions } from 'vuex';
 
 export default {
   computed: {
-    ...mapGetters(['isAuthenticated', 'cartItems']),
-    cartCount() {
-      return this.cartItems.length;
-    },
+    ...mapGetters(['isAuthenticated']),
   },
   methods: {
     ...mapActions(['logout']),
@@ -26,12 +25,6 @@ export default {
 </script>
 
 <style scoped>
-#app {
-  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #1a2b44;
-}
 
 .navigation {
   padding: 24px 32px;
